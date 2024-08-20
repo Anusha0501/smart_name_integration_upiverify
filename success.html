@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="style1.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .page {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+        .form {
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #555;
+            text-align: center;
+        }
+        .success-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="form">
+            <h1>Payment Successful</h1>
+            <p class="success-amount" id="amount"></p>
+            <p id="payingTo"></p>
+            <p id="upiId"></p>
+            <p id="timestamp"></p>
+            <p id="transactionId"></p>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const amount = urlParams.get('amount');
+            const payingTo = urlParams.get('payingTo');
+            const upiId = urlParams.get('upiId');
+            const transactionId = urlParams.get('transactionId');
+            const timestamp = urlParams.get('timestamp');
+
+            document.getElementById('amount').textContent = `₹${amount}`;
+            document.getElementById('payingTo').textContent = `Paid to: ${payingTo}`;
+            document.getElementById('upiId').textContent = `UPI ID: ${upiId}`;
+            document.getElementById('timestamp').textContent = timestamp;
+            document.getElementById('transactionId').textContent = `Transaction ID: ${transactionId}`;
+        });
+    </script>
+</body>
+</html>

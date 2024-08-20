@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agaamin Technologies - UPI Payment Page-1</title>
+    <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+    <div class="page">
+        <div class="form">
+            <h1>Enter your Payment Details Below</h1>
+            <form id="smartNameForm">
+                <label for="smartName">Enter the Smart Name here:</label>
+                <input type="text" id="smartName" name="smartName" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('smartNameForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const smartName = document.getElementById('smartName').value;
+            const url = `https://hnslogin.world/?name=${smartName}&type=TXT`;
+
+            try {
+                const response = await fetch(url);
+                const jsonResponse = await response.json();
+                const upiId = jsonResponse.Answer.find(answer => answer.type === 16).data.replace(/"/g, "");
+
+                const expressServerUrl = 'http://localhost:3000/vpa'; // Replace with your actual server URL
+
+                const serverResponse = await fetch(`${expressServerUrl}/${upiId}`);
+                const serverResponseData = await serverResponse.json();
+
+                // Redirect to the new page with data in URL parameters
+                const redirectUrl = `results.html?nameAtBank=${encodeURIComponent(serverResponseData.nameAtBank)}&upiId=${encodeURIComponent(upiId)}`;
+                window.location.href = redirectUrl;
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to fetch UPI ID or send it to the server');
+            }
+        });
+    </script>
+</body>
+</html>
